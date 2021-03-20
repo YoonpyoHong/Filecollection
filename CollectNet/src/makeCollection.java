@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileOutputStream;
  
@@ -16,9 +17,10 @@ import org.w3c.dom.Element;
 
 
 
-public class collection{
-	public static void main(String[] args)  {
-		File dir = new File("src/data");
+public class makeCollection{
+	 public void collection(String files)  {
+		
+		File dir = new File(files);
 		File filelist[] = dir.listFiles();
 		try {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -47,9 +49,9 @@ public class collection{
 			
 			Elements title_html = input.select("title");
 			Elements content_html = input.select("#content");
+			
 			String title_text = title_html.text();
 			String content_text = content_html.text();
-			
 			
 			Element title = result.createElement("title");
 			title.appendChild(result.createTextNode(title_text));
@@ -71,7 +73,7 @@ public class collection{
          transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
 
          DOMSource source = new DOMSource(result);
-         StreamResult compelete = new StreamResult(new FileOutputStream(new File("src/data/collection.xml")));
+         StreamResult compelete = new StreamResult(new FileOutputStream(new File("./collection.xml")));
 
          transformer.transform(source, compelete);
 		
