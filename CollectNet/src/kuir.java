@@ -13,5 +13,9 @@ public class kuir {
 			makeKeyword mk = new makeKeyword();
 			mk.keyword(args[1]);
 		}
+		else if(args[0].equals("-i")) {
+			indexer id = new indexer();
+			id.index(args[1]);
+		}
 	}
 }
