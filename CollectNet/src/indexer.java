@@ -101,7 +101,6 @@ public class indexer {
 	        		}	        			        		
 	        	}
 	        }
-	        System.out.println(IndexMap.get("¸ð¾ç")[3]);
 			
 			objectoutputstream.writeObject(IndexMap);
 			
