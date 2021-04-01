@@ -52,7 +52,6 @@ public class makeKeyword {
         		first_test += kwrd.getString()+":"+ kwrd.getCnt()+"#";
         		}
         		body.getFirstChild().setNodeValue(first_test);
-        		
         	}
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		 
