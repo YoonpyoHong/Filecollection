@@ -17,5 +17,11 @@ public class kuir {
 			indexer id = new indexer();
 			id.index(args[1]);
 		}
+		else if(args[0].equals("-s")) {
+			if(args[2].equals("-q")) {
+				searcher sr = new searcher();
+				sr.CalcSim(args[1],args[3]);
+			}
+		}
 	}
 }

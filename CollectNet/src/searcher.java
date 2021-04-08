@@ -56,6 +56,7 @@ public class searcher {
         	for(int id_save = 0; id_save*2<weight_list[0].length; id_save++) {
         		
         		double weight = 0;
+<<<<<<< HEAD
         		double weight_cos_a = 0;
         		double weight_cos_b = 0;
         		for(int i = 0;i<word_count; i++) {
@@ -70,6 +71,10 @@ public class searcher {
         		}
         		else {
         			weight =0;
+=======
+        		for(int i = 0;i<word_count; i++) {
+        			weight += Double.parseDouble(weight_list[i][id_save*2+1]);
+>>>>>>> feature
         		}
         		
         		if(weight>save[2][1]) {
