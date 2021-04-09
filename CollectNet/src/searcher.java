@@ -15,6 +15,54 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class searcher {
+	public HashMap<Integer, Double> Innerproduct(String searchfile, String input) {
+		try {
+			//indexer에서 저장 해놓은 hashmap데이터 받아오기
+			HashMap<String, String[]> IndexMap = new HashMap<String, String[]>();
+			
+			FileInputStream fileinputstream = new FileInputStream(searchfile);
+			ObjectInputStream objectinputstream = new ObjectInputStream(fileinputstream);
+			 
+			IndexMap = (HashMap<String, String[]>)objectinputstream.readObject();
+			
+			String example = input;
+			
+			//weight_list 안에 가중치 값이 정리된 배열 저장
+			KeywordExtractor ke = new KeywordExtractor();
+        	KeywordList kl = ke.extractKeyword(example, true);
+        	String[][] weight_list = new String[kl.size()][];
+        	//글자 개수 저장하기
+        	int word_count = kl.size();
+        	for (int i = 0; i<kl.size(); i++) {
+        		Keyword kwrd =  kl.get(i);
+        		weight_list[i] =IndexMap.get(kwrd.getString());	
+        	}
+        	
+        	Double save[][] = {{0.0,-1.0},{0.0,-1.0},{0.0,-1.0}};
+        	
+        	HashMap<Integer, Double> save_sum = new HashMap<Integer, Double>();
+        	
+        	
+        	for(int id_save = 0; id_save*2<weight_list[0].length; id_save++) {
+        		double weight = 0;
+        		
+        		for(int i = 0;i<word_count; i++) {
+        			weight += Double.parseDouble(weight_list[i][id_save*2+1]);
+        		}
+        		
+        		save_sum.put(id_save, weight);
+        		
+        		}
+        		
+        	return save_sum;
+
+		
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public void CalcSim(String searchfile, String input) {
 		try {
 			//indexer에서 저장 해놓은 hashmap데이터 받아오기
@@ -55,12 +103,11 @@ public class searcher {
         	
         	for(int id_save = 0; id_save*2<weight_list[0].length; id_save++) {
         		
-        		double weight = 0;
+        		double weight = Innerproduct(searchfile, input).get(id_save);
         		double weight_cos_a = 0;
         		double weight_cos_b = 0;
         		for(int i = 0;i<word_count; i++) {
         			Keyword kwrd =  kl.get(i);
-        			weight += Double.parseDouble(weight_list[i][id_save*2+1])*kwrd.getCnt();
         			weight_cos_a += Math.pow(Double.parseDouble(weight_list[i][id_save*2+1]), 2);
         			weight_cos_b += Math.pow(kwrd.getCnt(),2);
         		}
@@ -70,10 +117,6 @@ public class searcher {
         		}
         		else {
         			weight =0;
-
-        		for(int i = 0;i<word_count; i++) {
-        			weight += Double.parseDouble(weight_list[i][id_save*2+1]);
-
         		}
         		
         		if(weight>save[2][1]) {
@@ -112,7 +155,7 @@ public class searcher {
         		}
         	}
 
-        	}
+        	
 		} catch (IOException | ClassNotFoundException | ParserConfigurationException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
